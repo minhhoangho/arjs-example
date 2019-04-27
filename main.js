@@ -62,6 +62,8 @@ function createObjects () {
       electronParent.add(electron)
       
       // initialize electron position
+      proton.position.y = 4
+      electronParent.position.y = 4
       electron.position.x = 3
     }
 function init(){
