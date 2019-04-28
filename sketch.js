@@ -9,7 +9,7 @@
         requestAnimationFrame(loop)
       });
     };
-    script.src = './vendor/stats.js';
+    script.src = './assets/stats/stats.js';
     document.head.appendChild(script);
   })()
   
