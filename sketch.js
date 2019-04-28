@@ -144,7 +144,7 @@ function initializeAR() {
 }
 
 function update() {
-    electronParent.rotation.z += 0.1
+    electronParent.rotation.y += 0.1
 }
 
 function render() {
