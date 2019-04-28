@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> simple ar.js </title>
+        <title>Demo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/86/three.min.js"></script>         -->
-        <script src="three.js"></script>        
-        <script src="ar.min.js"></script>
+        <!-- include threejs -->
+        <script src="./vendor/three.js"></script>  
+        <!-- include artoolkit       -->
+        <script src="./vendor/artoolkit.min.js"></script>
+        <script src="./vendor/artoolkit.api.js"></script>
+        <!-- include threex -->
+        <script src="./vendor/threex-artoolkitsource.js"></script>
+        <script src="./vendor/threex-artoolkitcontext.js"></script>
+        <script src="./vendor/threex-arbasecontrols.js"></script>
+        <script src="./vendor/threex-armarkercontrols.js"></script>
     </head>
     <body>
-        <a-scene embedded artoolkit='sourceType: webcam;'>
-            <a-marker-camera preset='hiro'></a-marker-camera>
-        </a-scene>
         <div id="container"></div>
-
         <script src="main.js"></script>
-        
     </body>
 </html>

@@ -1,3 +1,19 @@
+//create fps area
+(function () {
+    var script = document.createElement('script');
+    script.onload = function () {
+      var stats = new Stats();
+      document.body.appendChild(stats.dom);
+      requestAnimationFrame(function loop() {
+        stats.update();
+        requestAnimationFrame(loop)
+      });
+    };
+    script.src = './vendor/stats.js';
+    document.head.appendChild(script);
+  })()
+  
+
 var renderer,
     scene,
     camera,
@@ -5,12 +21,9 @@ var renderer,
 
 var arSource,
     arContext,
-    arMarker = [];
+    arMarker;
 
-var 
-    mesh;
 
-init();
 
 function createLights () {
 	
@@ -44,101 +57,120 @@ function createLights () {
 
 function createObjects () {
     //create shape and material
-      var geometry = new THREE.SphereGeometry(0.5, 100, 100);
-      var geometry2 = new THREE.SphereGeometry(0.07, 100, 100);
-      var material = new THREE.MeshLambertMaterial({
-        color: 0xDC7D69
-      });
-      var material2 = new THREE.MeshLambertMaterial({
-        color: 0x6988DC
-      });
+    var geometry = new THREE.SphereGeometry(0.5, 100, 100);
+    var geometry2 = new THREE.SphereGeometry(0.07, 100, 100);
+    var material = new THREE.MeshLambertMaterial({
+    color: 0xDC7D69
+    });
+    var material2 = new THREE.MeshLambertMaterial({
+    color: 0x6988DC
+    });
+
+    proton = new THREE.Mesh(geometry, material);
+    electron = new THREE.Mesh(geometry2, material2);
+    scene.add(proton)
+    electronParent = new THREE.Object3D();
+    scene.add(electronParent)
+
+    electronParent.add(electron)
     
-      proton = new THREE.Mesh(geometry, material);
-      electron = new THREE.Mesh(geometry2, material2);
-      scene.add(proton)
-      electronParent = new THREE.Object3D();
-      scene.add(electronParent)
-    
-      electronParent.add(electron)
-      
-      // initialize electron position
-      proton.position.y = 2
-      electronParent.position.y = 2
-      electron.position.x = 1.5
-    }
-function init(){
+    // initialize electron position
+    proton.position.y = 2
+    electronParent.position.y = 2
+    electron.position.x = 1.5
+}
 
-
-
-    container = document.getElementById('container');
-
-    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+function createScene() {
     scene = new THREE.Scene();
-    camera = new THREE.Camera();
+    scene.visible = false;
+}
 
+function createCamera () {
+    camera = new THREE.Camera();
+    scene.add(camera);
+}
+
+function createRenderer() {
+    container = document.getElementById('container');
+    renderer = new THREE.WebGLRenderer({ 
+        antialias: true, 
+        alpha: true 
+    });
     renderer.setClearColor(0x000000, 0);
     renderer.setSize(window.innerWidth, window.innerHeight);
-
     container.appendChild(renderer.domElement);
-    scene.add(camera);
-    scene.visible = false;
-    createLights()
+}
 
-    createObjects()
+function createArSource() {
     arSource = new THREEx.ArToolkitSource({
         sourceType : 'webcam',
     });
+}
 
+function createArContext(){
     arContext = new THREEx.ArToolkitContext({
         cameraParametersUrl: './assets/data/camera_para.dat',
         detectionMode: 'mono',
     });
+}
 
-    arMarker[0] = new THREEx.ArMarkerControls(arContext, camera, {
+function createArMarker() {
+    arMarker = new THREEx.ArMarkerControls(arContext, camera, {
         type : 'pattern',
         patternUrl : './assets/data/patt.hiro',
         changeMatrixMode: 'cameraTransformMatrix'
     });
+}
 
-    arMarker[1] = new THREEx.ArMarkerControls(arContext, camera, {
-        type : 'pattern',
-        patternUrl : './assets/data/u4bi.patt',
-        changeMatrixMode: 'cameraTransformMatrix'
+function onResize() {
+    arSource.onResize();
+    arSource.copySizeTo(renderer.domElement);
+    if(arContext.arController !== null) {
+        arSource.copySizeTo(arContext.arController.canvas);
+    }
+}
+
+function initializeAR() {
+    createArSource();
+    createArContext();
+     /* handle */
+     arSource.init(function onReady(){
+        onResize();
     });
-
-
-
-
-
-    /* handle */
-    arSource.init(function(){
-        arSource.onResize();
-        arSource.copySizeTo(renderer.domElement);
-
-        if(arContext.arController !== null) arSource.copySizeTo(arContext.arController.canvas);
-
-    });
-
     arContext.init(function onCompleted(){
-        
         camera.projectionMatrix.copy(arContext.getProjectionMatrix());
-
     });
+    createArMarker();
+}
 
-
-    render();   
-    
-}   
-
-function render(){
-    requestAnimationFrame(render);
-    renderer.render(scene,camera);                
-
-    if(arSource.ready === false) return;
-
-    arContext.update(arSource.domElement);
-    scene.visible = camera.visible;
-
+function update() {
     electronParent.rotation.z += 0.1
+}
 
+function render() {
+    renderer.render(scene,camera);  
+    if(arSource.ready !== false) {
+        arContext.update(arSource.domElement);
+    };
+    scene.visible = camera.visible;
+}
+
+function main() {
+    requestAnimationFrame(main);
+    renderer.render(scene,camera);
+    update();
+    render();   
 }          
+// // handle resize event
+// window.addEventListener('resize', function(){
+//     onResize();
+// });
+
+createScene();
+createRenderer();
+createCamera()
+createLights();
+createObjects();
+initializeAR();
+
+main();
