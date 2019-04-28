@@ -75,9 +75,9 @@ function createObjects () {
     electronParent.add(electron)
     
     // initialize electron position
-    proton.position.y = 2
-    electronParent.position.y = 2
-    electron.position.x = 1.5
+    proton.position.y = 1
+    electronParent.position.y = 1
+    electron.position.x = 1
 }
 
 function createScene() {
@@ -144,7 +144,7 @@ function initializeAR() {
 }
 
 function update() {
-    electronParent.rotation.z += 0.1
+    electronParent.rotation.y += 0.1
 }
 
 function render() {
