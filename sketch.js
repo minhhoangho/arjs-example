@@ -144,7 +144,7 @@ function initializeAR() {
 }
 
 function update() {
-    electronParent.rotation.y += 0.1
+    electronParent.rotation.z += 0.1
 }
 
 function render() {
@@ -161,10 +161,7 @@ function main() {
     update();
     render();   
 }          
-// // handle resize event
-// window.addEventListener('resize', function(){
-//     onResize();
-// });
+
 
 createScene();
 createRenderer();
