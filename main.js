@@ -44,8 +44,8 @@ function createLights () {
 
 function createObjects () {
     //create shape and material
-      var geometry = new THREE.SphereGeometry(1, 100, 100);
-      var geometry2 = new THREE.SphereGeometry(0.15, 100, 100);
+      var geometry = new THREE.SphereGeometry(0.5, 100, 100);
+      var geometry2 = new THREE.SphereGeometry(0.07, 100, 100);
       var material = new THREE.MeshLambertMaterial({
         color: 0xDC7D69
       });
