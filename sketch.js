@@ -18,19 +18,39 @@ var renderer,
     scene,
     camera,
     container;
-
+var angle = 0
+var x, y
+var orbitRadius = 3
 var arSource,
     arContext,
     arMarker;
 
+function createScene() {
+    scene = new THREE.Scene();
+    scene.visible = false;
+}
+function createCamera () {
+    camera = new THREE.Camera();
+    scene.add(camera);
+}
 
+function createRenderer() {
+    container = document.getElementById('container');
+    renderer = new THREE.WebGLRenderer({ 
+        antialias: true, 
+        alpha: true 
+    });
+    renderer.setClearColor(0x000000, 0);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
+}
 
 function createLights () {
 	
-	hemisphereLight = new THREE.HemisphereLight(0xaaaaaa,0x000000, .9)
+	const hemisphereLight = new THREE.HemisphereLight(0xaaaaaa,0x000000, .9)
 
 
-	shadowLight = new THREE.DirectionalLight(0xffffff, .9);
+	const shadowLight = new THREE.DirectionalLight(0xffffff, .9);
 
 
 	shadowLight.position.set(150, 350, 350);
@@ -55,51 +75,54 @@ function createLights () {
 	scene.add(shadowLight);
 }
 
-function createObjects () {
+function createProton(radius) {
     //create shape and material
-    var geometry = new THREE.SphereGeometry(0.5, 100, 100);
-    var geometry2 = new THREE.SphereGeometry(0.07, 100, 100);
-    var material = new THREE.MeshLambertMaterial({
-    color: 0xDC7D69
-    });
-    var material2 = new THREE.MeshLambertMaterial({
-    color: 0x6988DC
-    });
-
-    proton = new THREE.Mesh(geometry, material);
-    electron = new THREE.Mesh(geometry2, material2);
-    scene.add(proton)
-    electronParent = new THREE.Object3D();
-    scene.add(electronParent)
-
-    electronParent.add(electron)
+      const geometry = new THREE.SphereGeometry(radius, 100, 100); 
+      const material = new THREE.MeshLambertMaterial({
+        color: 0xDC7D69
+      });
+      proton = new THREE.Mesh(geometry, material);
+      scene.add(proton)
+}
     
-    // initialize electron position
-    proton.position.y = 1
-    electronParent.position.y = 1
-    electron.position.x = 1
-}
-
-function createScene() {
-    scene = new THREE.Scene();
-    scene.visible = false;
-}
-
-function createCamera () {
-    camera = new THREE.Camera();
-    scene.add(camera);
-}
-
-function createRenderer() {
-    container = document.getElementById('container');
-    renderer = new THREE.WebGLRenderer({ 
-        antialias: true, 
-        alpha: true 
+function createElectron(radius) {
+    const geometry = new THREE.SphereGeometry(radius, 100, 100); 
+    const material = new THREE.MeshLambertMaterial({
+    color: 0x134df9
     });
-    renderer.setClearColor(0x000000, 0);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(renderer.domElement);
+    electron = new THREE.Mesh(geometry, material);
+    scene.add(electron)
 }
+// function createObjects () {
+//     //create shape and material
+//     var geometry = new THREE.SphereGeometry(0.5, 100, 100);
+//     var geometry2 = new THREE.SphereGeometry(0.07, 100, 100);
+//     var material = new THREE.MeshLambertMaterial({
+//     color: 0xDC7D69
+//     });
+//     var material2 = new THREE.MeshLambertMaterial({
+//     color: 0x6988DC
+//     });
+
+//     proton = new THREE.Mesh(geometry, material);
+//     electron = new THREE.Mesh(geometry2, material2);
+//     scene.add(proton)
+//     electronParent = new THREE.Object3D();
+//     scene.add(electronParent)
+
+//     electronParent.add(electron)
+    
+//     // initialize electron position
+//     proton.position.y = 1
+//     electronParent.position.y = 1
+//     electron.position.x = 1
+// }
+
+function createObjects () {
+    createProton(1);
+    createElectron(0.1)
+}
+
 
 function createArSource() {
     arSource = new THREEx.ArToolkitSource({
@@ -122,6 +145,7 @@ function createArMarker() {
     });
 }
 
+
 function onResize() {
     arSource.onResize();
     arSource.copySizeTo(renderer.domElement);
@@ -143,8 +167,16 @@ function initializeAR() {
     createArMarker();
 }
 
+function move() {
+    angle += 0.1
+    x = orbitRadius * Math.cos(angle)
+    y = orbitRadius * Math.sin(angle)
+    electron.position.x = x;
+    electron.position.y = y;
+}
+
 function update() {
-    electronParent.rotation.y += 0.1
+    move();
 }
 
 function render() {
@@ -157,7 +189,6 @@ function render() {
 
 function main() {
     requestAnimationFrame(main);
-    renderer.render(scene,camera);
     update();
     render();   
 }          
@@ -170,4 +201,7 @@ createLights();
 createObjects();
 initializeAR();
 
+
+
+// =>>>
 main();
