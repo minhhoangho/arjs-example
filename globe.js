@@ -29,32 +29,32 @@ var globe;
 
 function createLights () {
 
-hemisphereLight = new THREE.HemisphereLight(0xaaaaaa,0x000000, .9)
+    hemisphereLight = new THREE.HemisphereLight(0xaaaaaa,0x000000, .9)
 
 
-shadowLight = new THREE.DirectionalLight(0xffffff, .9);
+    shadowLight = new THREE.DirectionalLight(0xffffff, .9);
 
 
-shadowLight.position.set(150, 350, 350);
+    shadowLight.position.set(150, 350, 350);
 
-// allow shadow
-shadowLight.castShadow = true;
+    // allow shadow
+    shadowLight.castShadow = true;
 
-// setting observation area of shadow
-shadowLight.shadow.camera.left = -400;
-shadowLight.shadow.camera.right = 400;
-shadowLight.shadow.camera.top = 400;
-shadowLight.shadow.camera.bottom = -400;
-shadowLight.shadow.camera.near = 1;
-shadowLight.shadow.camera.far = 1000;
+    // setting observation area of shadow
+    shadowLight.shadow.camera.left = -400;
+    shadowLight.shadow.camera.right = 400;
+    shadowLight.shadow.camera.top = 400;
+    shadowLight.shadow.camera.bottom = -400;
+    shadowLight.shadow.camera.near = 1;
+    shadowLight.shadow.camera.far = 1000;
 
-//setting weight of frame
-shadowLight.shadow.mapSize.width = 2048;
-shadowLight.shadow.mapSize.height = 2048;
+    //setting weight of frame
+    shadowLight.shadow.mapSize.width = 2048;
+    shadowLight.shadow.mapSize.height = 2048;
 
-// add to scene
-scene.add(hemisphereLight);
-scene.add(shadowLight);
+    // add to scene
+    scene.add(hemisphereLight);
+    scene.add(shadowLight);
 }
 
 function createObjects () {

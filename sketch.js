@@ -29,6 +29,7 @@ function createScene() {
     scene = new THREE.Scene();
     scene.visible = false;
 }
+
 function createCamera () {
     camera = new THREE.Camera();
     scene.add(camera);
@@ -77,12 +78,12 @@ function createLights () {
 
 function createProton(radius) {
     //create shape and material
-      const geometry = new THREE.SphereGeometry(radius, 100, 100); 
-      const material = new THREE.MeshLambertMaterial({
-        color: 0xDC7D69
-      });
-      proton = new THREE.Mesh(geometry, material);
-      scene.add(proton)
+    const geometry = new THREE.SphereGeometry(radius, 100, 100); 
+    const material = new THREE.MeshLambertMaterial({
+    color: 0xDC7D69
+    });
+    proton = new THREE.Mesh(geometry, material);
+    scene.add(proton)
 }
     
 function createElectron(radius) {
@@ -93,33 +94,9 @@ function createElectron(radius) {
     electron = new THREE.Mesh(geometry, material);
     scene.add(electron)
 }
-// function createObjects () {
-//     //create shape and material
-//     var geometry = new THREE.SphereGeometry(0.5, 100, 100);
-//     var geometry2 = new THREE.SphereGeometry(0.07, 100, 100);
-//     var material = new THREE.MeshLambertMaterial({
-//     color: 0xDC7D69
-//     });
-//     var material2 = new THREE.MeshLambertMaterial({
-//     color: 0x6988DC
-//     });
-
-//     proton = new THREE.Mesh(geometry, material);
-//     electron = new THREE.Mesh(geometry2, material2);
-//     scene.add(proton)
-//     electronParent = new THREE.Object3D();
-//     scene.add(electronParent)
-
-//     electronParent.add(electron)
-    
-//     // initialize electron position
-//     proton.position.y = 1
-//     electronParent.position.y = 1
-//     electron.position.x = 1
-// }
 
 function createObjects () {
-    createProton(1);
+    createProton(0.3);
     createElectron(0.1)
 }
 
@@ -144,7 +121,6 @@ function createArMarker() {
         changeMatrixMode: 'cameraTransformMatrix'
     });
 }
-
 
 function onResize() {
     arSource.onResize();
@@ -193,7 +169,7 @@ function main() {
     render();   
 }          
 
-
+// Initialize basic source and object with AR view
 createScene();
 createRenderer();
 createCamera()
@@ -203,5 +179,5 @@ initializeAR();
 
 
 
-// =>>>
+// => start
 main();
