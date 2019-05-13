@@ -20,7 +20,7 @@ var renderer,
     container;
 var angle = 0
 var x, y
-var orbitRadius = 3
+var orbitRadius = 1.7
 var arSource,
     arContext,
     arMarker;
