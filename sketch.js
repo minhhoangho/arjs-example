@@ -1,29 +1,31 @@
-//create fps area
-(function () {
-    var script = document.createElement('script');
-    script.onload = function () {
-      var stats = new Stats();
-      document.body.appendChild(stats.dom);
-      requestAnimationFrame(function loop() {
-        stats.update();
-        requestAnimationFrame(loop)
-      });
-    };
-    script.src = './assets/stats/stats.js';
-    document.head.appendChild(script);
-  })()
-  
-
 var renderer,
-    scene,
-    camera,
-    container;
+scene,
+camera,
+container;
 var angle = 0
 var x, y
 var orbitRadius = 1.7
 var arSource,
-    arContext,
-    arMarker;
+arContext,
+arMarker;
+
+
+//create fps area
+(function () {
+    var script = document.createElement('script');
+    script.onload = function () {
+        var stats = new Stats();
+        document.body.appendChild(stats.dom);
+        requestAnimationFrame(function loop() {
+            stats.update();
+            requestAnimationFrame(loop)
+        });
+    };
+    script.src = './assets/stats/stats.js';
+    document.head.appendChild(script);
+})()
+
+
 
 function createScene() {
     scene = new THREE.Scene();
@@ -134,7 +136,7 @@ function initializeAR() {
     createArSource();
     createArContext();
      /* handle */
-     arSource.init(function onReady(){
+    arSource.init(function onReady(){
         onResize();
     });
     arContext.init(function onCompleted(){
