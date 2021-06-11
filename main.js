@@ -52,15 +52,15 @@ class ArAwesome {
   createArContext() {
     this.arContext = new THREEx.ArToolkitContext({
       cameraParametersUrl: './assets/data/camera_para.dat',
-      detectionMode: 'color',
-      // detectionMode: 'mono',
+      // detectionMode: 'color',
+      detectionMode: 'mono',
     });
   }
 
   createArMarker() {
     this.arMarker = new THREEx.ArMarkerControls(this.arContext, this.camera, {
       type: 'pattern',
-      patternUrl: './assets/data/patt.hiro',
+      patternUrl: './assets/data/patt2.hiro',
       changeMatrixMode: 'cameraTransformMatrix',
     });
   }
@@ -69,13 +69,9 @@ class ArAwesome {
   onResize() {
     // this.arSource.onResize();
     this.arSource.onResizeElement();
-
-    // this.arSource.copySizeTo(this.renderer.domElement);
     this.arSource.copyElementSizeTo(this.renderer.domElement);
-
     if (this.arContext.arController !== null) {
       this.arSource.copyElementSizeTo(this.arContext.arController.canvas);
-      // this.arSource.copySizeTo(this.arContext.arController.canvas);
     }
   }
 
@@ -151,7 +147,6 @@ class ArAwesome {
   createObjects() {
     this.proton = this.createProton(0.3);
     this.electron = this.createElectron(0.1);
-   
   }
 
   move(electron) {
