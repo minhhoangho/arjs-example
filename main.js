@@ -147,15 +147,22 @@ class ArAwesome {
   createObjects() {
     this.proton = this.createProton(0.3);
     this.electron = this.createElectron(0.1);
+    this.setElectionPosition(this.electron, { x: 1.5, y: 1.5, z: 0 });
+  }
+
+  setElectionPosition(electron, { x, y, z }) {
+    electron.position.x = x;
+    electron.position.y = y;
+    electron.position.z = z;
   }
 
   move(electron) {
-    this.angle += 0.1;
+    this.angle += 0.05;
     const orbitRadius = 1.5;
     const x = orbitRadius * Math.cos(this.angle);
     const y = orbitRadius * Math.sin(this.angle);
-    electron.position.x = x;
-    electron.position.y = y;
+    const z = electron.position.z;
+    this.setElectionPosition(electron, { x, y, z });
   }
 
   setupSceneAndSprite() {
